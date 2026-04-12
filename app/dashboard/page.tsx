@@ -1,4 +1,4 @@
-﻿"use client";
+"use client";
 import { useState, useEffect } from "react";
 
 type Projeto = { id: string; nome: string; descricao: string };
@@ -61,7 +61,7 @@ export default function Dashboard() {
       } else {
         setErro(data.error || "Erro ao criar projeto");
       }
-    } catch (e) { setErro("Erro de conexÃ£o"); }
+    } catch (e) { setErro("Erro de conexão"); }
     setLoading(false);
   }
 
@@ -97,7 +97,7 @@ export default function Dashboard() {
   const colunas = [
     { id: "a_fazer", label: "A fazer", cor: "#888780" },
     { id: "em_progresso", label: "Em progresso", cor: "#378ADD" },
-    { id: "concluido", label: "ConcluÃ­do", cor: "#1D9E75" },
+    { id: "concluido", label: "Concluído", cor: "#1D9E75" },
   ];
 
   return (
@@ -107,7 +107,7 @@ export default function Dashboard() {
           <div style={{ width: 28, height: 28, background: "#5B4CF5", borderRadius: 7, display: "flex", alignItems: "center", justifyContent: "center", color: "white", fontWeight: 700, fontSize: 13 }}>F</div>
           <span style={{ fontWeight: 600, fontSize: 15, color: "#1a1a1a" }}>FlowMind</span>
         </div>
-        <span style={{ fontSize: 12, background: "#E1F5EE", color: "#0F6E56", padding: "3px 10px", borderRadius: 20, fontWeight: 500 }}>Acesso VitalÃ­cio âœ“</span>
+        <span style={{ fontSize: 12, background: "#E1F5EE", color: "#0F6E56", padding: "3px 10px", borderRadius: 20, fontWeight: 500 }}>Acesso Vitalício ✓</span>
       </header>
 
       <div style={{ display: "flex", height: "calc(100vh - 56px)" }}>
@@ -115,7 +115,7 @@ export default function Dashboard() {
           <div style={{ fontSize: 11, fontWeight: 600, color: "#aaa", textTransform: "uppercase", letterSpacing: "0.06em", marginBottom: 8 }}>Projetos</div>
           {projetos.map(p => (
             <div key={p.id} style={{ padding: "8px 10px", borderRadius: 8, cursor: "pointer", fontSize: 13, color: projetoAtivo?.id === p.id ? "#5B4CF5" : "#444", background: projetoAtivo?.id === p.id ? "#EEEDFE" : "transparent", fontWeight: projetoAtivo?.id === p.id ? 500 : 400 }} onClick={() => { setProjetoAtivo(p); carregarTarefas(p.id); }}>
-              ðŸ“‹ {p.nome}
+              📋 {p.nome}
             </div>
           ))}
           <div style={{ padding: "8px 10px", borderRadius: 8, cursor: "pointer", fontSize: 13, color: "#5B4CF5", border: "1px dashed #c4c0f8", textAlign: "center", marginTop: 8 }} onClick={() => setShowNovoProjeto(true)}>+ Novo projeto</div>
@@ -127,7 +127,7 @@ export default function Dashboard() {
               <div style={{ display: "flex", justifyContent: "space-between", alignItems: "center", marginBottom: 24 }}>
                 <div>
                   <div style={{ fontSize: 20, fontWeight: 700, color: "#1a1a1a" }}>{projetoAtivo.nome}</div>
-                  <div style={{ fontSize: 13, color: "#aaa", marginTop: 2 }}>{projetoAtivo.descricao || "Sem descriÃ§Ã£o"}</div>
+                  <div style={{ fontSize: 13, color: "#aaa", marginTop: 2 }}>{projetoAtivo.descricao || "Sem descrição"}</div>
                 </div>
                 <button style={{ background: "#5B4CF5", color: "white", border: "none", borderRadius: 8, padding: "9px 18px", fontSize: 13, fontWeight: 600, cursor: "pointer" }} onClick={() => setShowNovaTarefa(true)}>+ Nova tarefa</button>
               </div>
@@ -146,9 +146,9 @@ export default function Dashboard() {
                         <div key={t.id} style={{ background: "white", border: "1px solid #eee", borderRadius: 8, padding: "10px 12px", marginBottom: 8 }}>
                           <div style={{ fontSize: 13, color: "#1a1a1a", marginBottom: 8 }}>{t.titulo}</div>
                           <div style={{ display: "flex", gap: 4 }}>
-                            {col.id !== "a_fazer" && <button style={{ fontSize: 10, padding: "2px 8px", borderRadius: 10, border: "1px solid #ddd", background: "transparent", cursor: "pointer", color: "#666" }} onClick={() => moverTarefa(t.id, col.id === "em_progresso" ? "a_fazer" : "em_progresso")}>â† Voltar</button>}
-                            {col.id !== "concluido" && <button style={{ fontSize: 10, padding: "2px 8px", borderRadius: 10, border: "1px solid #c4c0f8", background: "transparent", cursor: "pointer", color: "#5B4CF5" }} onClick={() => moverTarefa(t.id, col.id === "a_fazer" ? "em_progresso" : "concluido")}>AvanÃ§ar â†’</button>}
-                            <button style={{ fontSize: 10, padding: "2px 8px", borderRadius: 10, border: "1px solid #fcc", background: "transparent", cursor: "pointer", color: "#e24b4a", marginLeft: "auto" }} onClick={() => deletarTarefa(t.id)}>âœ•</button>
+                            {col.id !== "a_fazer" && <button style={{ fontSize: 10, padding: "2px 8px", borderRadius: 10, border: "1px solid #ddd", background: "transparent", cursor: "pointer", color: "#666" }} onClick={() => moverTarefa(t.id, col.id === "em_progresso" ? "a_fazer" : "em_progresso")}>← Voltar</button>}
+                            {col.id !== "concluido" && <button style={{ fontSize: 10, padding: "2px 8px", borderRadius: 10, border: "1px solid #c4c0f8", background: "transparent", cursor: "pointer", color: "#5B4CF5" }} onClick={() => moverTarefa(t.id, col.id === "a_fazer" ? "em_progresso" : "concluido")}>Avançar →</button>}
+                            <button style={{ fontSize: 10, padding: "2px 8px", borderRadius: 10, border: "1px solid #fcc", background: "transparent", cursor: "pointer", color: "#e24b4a", marginLeft: "auto" }} onClick={() => deletarTarefa(t.id)}>✕</button>
                           </div>
                         </div>
                       ))}
@@ -159,7 +159,7 @@ export default function Dashboard() {
             </>
           ) : (
             <div style={{ textAlign: "center", padding: "60px 20px" }}>
-              <div style={{ fontSize: 40, marginBottom: 16 }}>ðŸ“‹</div>
+              <div style={{ fontSize: 40, marginBottom: 16 }}>📋</div>
               <div style={{ fontSize: 18, fontWeight: 700, color: "#1a1a1a", marginBottom: 8 }}>Crie seu primeiro projeto</div>
               <div style={{ fontSize: 14, color: "#888", marginBottom: 24 }}>Organize suas tarefas em um quadro Kanban.</div>
               <button style={{ background: "#5B4CF5", color: "white", border: "none", borderRadius: 8, padding: "10px 24px", fontSize: 14, fontWeight: 600, cursor: "pointer" }} onClick={() => setShowNovoProjeto(true)}>+ Criar projeto</button>
@@ -174,7 +174,7 @@ export default function Dashboard() {
             <div style={{ fontSize: 18, fontWeight: 700, color: "#1a1a1a", marginBottom: 18 }}>Novo projeto</div>
             {erro && <div style={{ background: "#FCEBEB", color: "#A32D2D", padding: "8px 12px", borderRadius: 8, fontSize: 13, marginBottom: 12 }}>{erro}</div>}
             <input style={{ width: "100%", height: 40, border: "1px solid #ddd", borderRadius: 8, padding: "0 12px", fontSize: 14, marginBottom: 12, boxSizing: "border-box", outline: "none" }} placeholder="Nome do projeto" value={nomeProjeto} onChange={e => setNomeProjeto(e.target.value)} autoFocus/>
-            <input style={{ width: "100%", height: 40, border: "1px solid #ddd", borderRadius: 8, padding: "0 12px", fontSize: 14, marginBottom: 16, boxSizing: "border-box", outline: "none" }} placeholder="DescriÃ§Ã£o (opcional)" value={descProjeto} onChange={e => setDescProjeto(e.target.value)}/>
+            <input style={{ width: "100%", height: 40, border: "1px solid #ddd", borderRadius: 8, padding: "0 12px", fontSize: 14, marginBottom: 16, boxSizing: "border-box", outline: "none" }} placeholder="Descrição (opcional)" value={descProjeto} onChange={e => setDescProjeto(e.target.value)}/>
             <div style={{ display: "flex", gap: 8 }}>
               <button style={{ flex: 1, height: 40, border: "1px solid #ddd", borderRadius: 8, background: "transparent", fontSize: 14, cursor: "pointer" }} onClick={() => { setShowNovoProjeto(false); setErro(""); }}>Cancelar</button>
               <button style={{ flex: 2, height: 40, background: loading ? "#999" : "#5B4CF5", color: "white", border: "none", borderRadius: 8, fontSize: 14, fontWeight: 600, cursor: "pointer" }} onClick={criarProjeto} disabled={loading}>{loading ? "Criando..." : "Criar projeto"}</button>
@@ -198,4 +198,3 @@ export default function Dashboard() {
     </div>
   );
 }
-
