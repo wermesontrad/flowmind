@@ -1,36 +1,62 @@
-This is a [Next.js](https://nextjs.org) project bootstrapped with [`create-next-app`](https://nextjs.org/docs/app/api-reference/cli/create-next-app).
+# FlowMind 🧠
 
-## Getting Started
+Gerenciador de projetos com Kanban, integrado ao Supabase e Stripe.
 
-First, run the development server:
+## 📁 Estrutura de Arquivos
 
-```bash
-npm run dev
-# or
-yarn dev
-# or
-pnpm dev
-# or
-bun dev
+```
+flowmind/
+├── app/
+│   ├── page.tsx              ← Página inicial (landing + pagamento)
+│   ├── layout.tsx            ← Layout raiz
+│   ├── dashboard/
+│   │   └── page.tsx          ← Dashboard Kanban
+│   ├── sucesso/
+│   │   └── page.tsx          ← Página pós-pagamento
+│   └── api/
+│       ├── checkout/
+│       │   └── route.ts      ← API Stripe checkout
+│       ├── projetos/
+│       │   └── route.ts      ← API CRUD projetos
+│       └── tarefas/
+│           └── route.ts      ← API CRUD tarefas
+├── .env.example              ← Modelo das variáveis de ambiente
+├── .gitignore
+├── next.config.ts
+├── package.json
+└── tsconfig.json
 ```
 
-Open [http://localhost:3000](http://localhost:3000) with your browser to see the result.
+## ⚙️ Variáveis de Ambiente necessárias no Vercel
 
-You can start editing the page by modifying `app/page.tsx`. The page auto-updates as you edit the file.
+| Variável | Onde pegar |
+|---|---|
+| `NEXT_PUBLIC_SUPABASE_URL` | Supabase → Settings → API |
+| `SUPABASE_SERVICE_ROLE_KEY` | Supabase → Settings → API |
+| `STRIPE_SECRET_KEY` | Stripe → Developers → API Keys |
+| `NEXT_PUBLIC_STRIPE_PRICE_ID` | Stripe → Products → seu produto → Price ID |
+| `NEXT_PUBLIC_APP_URL` | URL do seu site no Vercel |
 
-This project uses [`next/font`](https://nextjs.org/docs/app/building-your-application/optimizing/fonts) to automatically optimize and load [Geist](https://vercel.com/font), a new font family for Vercel.
+## 🗄️ Tabelas no Supabase
 
-## Learn More
+### Tabela `projetos`
+```sql
+create table projetos (
+  id uuid default gen_random_uuid() primary key,
+  nome text not null,
+  descricao text,
+  usuario_email text,
+  criado_em timestamp default now()
+);
+```
 
-To learn more about Next.js, take a look at the following resources:
-
-- [Next.js Documentation](https://nextjs.org/docs) - learn about Next.js features and API.
-- [Learn Next.js](https://nextjs.org/learn) - an interactive Next.js tutorial.
-
-You can check out [the Next.js GitHub repository](https://github.com/vercel/next.js) - your feedback and contributions are welcome!
-
-## Deploy on Vercel
-
-The easiest way to deploy your Next.js app is to use the [Vercel Platform](https://vercel.com/new?utm_medium=default-template&filter=next.js&utm_source=create-next-app&utm_campaign=create-next-app-readme) from the creators of Next.js.
-
-Check out our [Next.js deployment documentation](https://nextjs.org/docs/app/building-your-application/deploying) for more details.
+### Tabela `tarefas`
+```sql
+create table tarefas (
+  id uuid default gen_random_uuid() primary key,
+  projeto_id uuid references projetos(id),
+  titulo text not null,
+  status text default 'a_fazer',
+  criado_em timestamp default now()
+);
+```

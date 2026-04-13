@@ -7,29 +7,15 @@ const supabase = createClient(
 );
 
 export async function GET() {
-  const { data, error } = await supabase
-    .from("projetos")
-    .select("*")
-    .order("criado_em", { ascending: false });
-
+  const { data, error } = await supabase.from("projetos").select("*").order("criado_em", { ascending: false });
   if (error) return NextResponse.json({ error: error.message }, { status: 500 });
   return NextResponse.json({ projetos: data });
 }
 
 export async function POST(req: NextRequest) {
   const { nome, descricao } = await req.json();
-
-  if (!nome) return NextResponse.json({ error: "Nome é obrigatório" }, { status: 400 });
-
-  const { data, error } = await supabase
-    .from("projetos")
-    .insert({ nome, descricao: descricao || "", usuario_email: "flowmind@app.com" })
-    .select()
-    .single();
-
-  if (error) {
-    console.error("Erro Supabase:", error);
-    return NextResponse.json({ error: error.message }, { status: 500 });
-  }
+  if (!nome) return NextResponse.json({ error: "Nome obrigatorio" }, { status: 400 });
+  const { data, error } = await supabase.from("projetos").insert({ nome, descricao: descricao || "", usuario_email: "flowmind@app.com" }).select().single();
+  if (error) return NextResponse.json({ error: error.message }, { status: 500 });
   return NextResponse.json({ projeto: data });
 }
