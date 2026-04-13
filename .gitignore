@@ -1,26 +1,14 @@
-# Dependências
 node_modules/
-.npm
-
-# Next.js
 .next/
 out/
 build/
-
-# Variáveis de ambiente (NUNCA suba esses arquivos!)
 .env
 .env.local
 .env.development.local
 .env.test.local
 .env.production.local
-
-# Vercel
 .vercel
-
-# TypeScript
 *.tsbuildinfo
 next-env.d.ts
-
-# Sistema
 .DS_Store
 Thumbs.db
